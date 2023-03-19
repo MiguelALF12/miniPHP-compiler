@@ -1,9 +1,0 @@
-General TODO:
-
-1- Define tokens
-    - Identifiers
-    - Keywords
-    - Numbers
-    - Operators
-2- Define regular expressions for each Token
-3- Test
