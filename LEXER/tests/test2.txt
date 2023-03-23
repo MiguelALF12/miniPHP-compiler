@@ -1,0 +1,59 @@
+<?php
+
+
+class MyClass
+{
+    public $public = 'Public';
+    protected $protected = 'Protected';
+    private $private = 'Private';
+
+    function printHello()
+    {
+        echo $this->public;
+        echo $this->protected;
+        echo $this->private;
+    }
+}
+
+$obj = new MyClass();
+$x = 10;
+echo $obj->public;   
+echo $obj->protected; 
+echo $obj->private;   
+$obj->printHello();   
+
+class MyClass2 extends MyClass
+{
+    
+    public $public = 'Public2';
+    protected $protected = 'Protected2';
+
+    function printHello()
+    {
+        echo $this->public;
+        echo $this->protected;
+        echo $this->private;
+    }
+}
+
+$obj2 = new MyClass2();
+echo $obj2->public;    
+echo $obj2->protected; 
+echo $obj2->private;  
+$obj2->printHello();   
+
+if ($a > $b) {
+    //miguel es el mejor
+    //miguel es el mejor y odia esta materia
+    echo "a es mayor que b";
+  } 
+  $n=1;
+  for ($n1=1; $n1<=10; $n1++)
+    {
+        echo "<tr>";
+            for ($n2=1; $n2<=10; $n2++)
+    {
+            echo "<td>", $n, "</td>";
+            $n=$n+1;
+ }
+?>
