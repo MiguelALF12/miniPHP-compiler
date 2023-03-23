@@ -8,7 +8,7 @@ import PHPlexer
 import ply.lex as lexer
 
 
-def test(data, builtLexer):
+def test1(data, builtLexer):
     builtLexer.input(data)
     while True:
         tok = builtLexer.token()
@@ -26,13 +26,13 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         fin = sys.argv[1]
     else:
-        fin = 'test.txt'
+        fin = './LEXER/test.txt'
     f = open(fin, 'r')
     data = f.read()
     print(data)
     #Build the lexer
     miniPHP = lexer.lex(module=PHPlexer)
-    test(data, miniPHP)
+    test1(data, miniPHP)
     # input()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
