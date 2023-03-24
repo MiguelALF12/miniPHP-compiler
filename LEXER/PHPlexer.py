@@ -120,7 +120,7 @@ tokens = [
     'DOT',
     'QUOTE',
     'DOUBLEQUOTE',
-    'DOLLARSIGN',
+    # 'DOLLARSIGN',
     'QUESTIONMARK',
     #Others
     "ID",
@@ -152,16 +152,17 @@ t_HASHTAG = r'\#'
 t_DOT = r'\.'
 t_QUOTE = r'\''
 t_DOUBLEQUOTE = r'\"'
-t_DOLLARSIGN = r'\$'
+# t_DOLLARSIGN = r'\$'
 t_QUESTIONMARK = r'\?'
 
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'\$?[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value.upper(),'ID')
     return t
 
 def t_NUMBER(t):
-    r'\d+(\.\d+)?((E|e)(-|\+)?\d+(\.\d+)?)?' 
+    # r'\d+^[a-zA-Z0-9_](\.\d+)?((E|e)(-|\+)?\d+(\.\d+)?)?'
+    r'\d(\.\d +)?((E | e)(- |\+)?\d + (\.\d+)?)?'
     t.value = float(t.value)
     return t
 
@@ -215,6 +216,7 @@ def t_comments_C99(t):
     t.lexer.lineno += 1
 
 def t_error(t):
+    # print(t.value)
     print("Lexical error: " + str(t.value[0]))
     t.lexer.skip(1)
 
