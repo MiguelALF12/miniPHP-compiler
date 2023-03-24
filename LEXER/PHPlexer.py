@@ -79,7 +79,6 @@ reserved = {
     "INT": "INT",
     "FLOAT": "FLOAT",
     "BOOL": "BOOL",
-    "STRING": "STRING",
     "TRUE": "TRUE",
     "FALSE": "FALSE",
     "NULL": "NULL",
@@ -125,7 +124,8 @@ tokens = [
     'QUESTIONMARK',
     #Others
     "ID",
-    "NUMBER"
+    "NUMBER",
+    "STRING"
 ] + list(reserved.values())
 
 #Token definition
@@ -161,8 +161,13 @@ def t_ID(t):
     return t
 
 def t_NUMBER(t):
-    r'\d+(\.\d+)?((E|e)(-|\+)?\d+(\.\d+)?)?'  # possible
+    r'\d+(\.\d+)?((E|e)(-|\+)?\d+(\.\d+)?)?' 
     t.value = float(t.value)
+    return t
+
+def t_STRING(t):
+    r'"([^"\\]|\\.)*"'
+    t.value = t.value
     return t
 
 def t_LESSEQUAL(t):
