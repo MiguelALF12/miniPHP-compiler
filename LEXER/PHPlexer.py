@@ -157,6 +157,8 @@ t_QUESTIONMARK = r'\?'
 
 def t_ID(t):
     r'\$?[a-zA-Z_][a-zA-Z_0-9]*'
+    # TODO: With the example: fuction fibo() {}, the lexer should recognize fuction as ID?. or as a error?
+    #       Or this would go on parser?
     t.type = reserved.get(t.value.upper(),'ID')
     return t
 
