@@ -2,6 +2,7 @@
 //Original Array on which operations is to be perform
 
 $original_array = array( '1', '2', '3', '4', '5' );
-function fibo($a){$a++}
+
+function fibo($arr){return $arr}
 
 ?>

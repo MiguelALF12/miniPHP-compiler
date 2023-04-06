@@ -1,0 +1,4 @@
+"Hello, this will be recognized by miniPHP"
+"2546523 \n \t/"
+//akjfkajsdhkjahsdfk
+/*some comments*/
