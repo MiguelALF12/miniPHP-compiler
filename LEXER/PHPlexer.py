@@ -4,131 +4,98 @@
 # tokenizer for a PHP-like syntax
 # This module just contains the lexing rules
 # ------------------------------------------------------------
+import ply.lex as lexer
 
 #Token lists
-
 reserved = {
 #Keywords
-    "ABSTRACT": "ABSTRACT",
-    "BREAK": "BREAK",
-    "ARRAY": "ARRAY",
-    "CALLABLE": "CALLABLE",
-    "CASE": "CASE",
-    "CATCH": "CATCH",
-    "CLASS": "CLASS",
-    "CLONE": "CLONE",
-    "CONST": "CONST",
-    "CONTINUE": "CONTINUE",
-    "DECLARE": "DECLARE",
-    "DEFAULT": "DEFAULT",
-    "DIE": "DIE",
-    "DO": "DO",
-    "ECHO": "ECHO",
-    "ELSE": "ELSE",
-    "ELSEIF": "ELSEIF",
-    "EMPTY": "EMPTY",
-    "ENDDECLARE": "ENDDECLARE",
-    "ENDFOR": "ENDFOR",
-    "ENDFOREACH": "ENDFOREACH",
-    "ENDIF": "ENDIF",
-    "ENDSWITCH": "ENDSWITCH",
-    "ENDWHILE": "ENDWHILE",
-    "EVAL": "EVAL",
-    "EXIT": "EXIT",
-    "EXTENDS": "EXTENDS",
-    "FINAL": "FINAL",
-    "FINALLY": "FINALLY",
-    "FN": "FN",
-    "FOR": "FOR",
-    "FOREACH": "FOREACH",
-    "FUNCTION": "FUNCTION",
-    "GLOBAL": "GLOBAL",
-    "GOTO": "GOTO",
-    "IF": "IF",
-    "IMPLEMENTS": "IMPLEMENTS",
-    "INCLUDE": "INCLUDE",
-    "INCLUDE_ONCE": "INCLUDE_ONCE",
-    "INSTANCEOF": "INSTANCEOF",
-    "INSTEADOF": "INSTEADOF",
-    "INTERFACE": "INTERFACE",
-    "ISSET": "ISSET",
-    "LIST": "LIST",
-    "MATCH": "MATCH",
-    "NAMESPACE": "NAMESPACE",
-    "NEW": "NEW",
-    "OR": "OR",
-    "PRINT": "PRINT",
-    "PRIVATE": "PRIVATE",
-    "PROTECTED": "PROTECTED",
-    "PUBLIC": "PUBLIC",
-    "READONLY": "READONLY",
-    "REQUIRE": "REQUIRE",
-    "REQUIRE_ONCE": "REQUIRE_ONCE",
-    "RETURN": "RETURN",
-    "STATIC": "STATIC",
-    "SWITCH": "SWITCH",
-    "THROW": "THROW",
-    "TRAIT": "TRAIT",
-    "TRY": "TRY",
-    "UNSET": "UNSET",
-    "USE": "USE",
-    "VAR": "VAR",
-    "WHILE": "WHILE",
-    "XOR": "XOR",
-    "YIELD": "YIELD",
-    "INT": "INT",
-    "FLOAT": "FLOAT",
-    "BOOL": "BOOL",
-    "TRUE": "TRUE",
-    "FALSE": "FALSE",
-    "NULL": "NULL",
-    "VOID": "VOID",
-    "ITERABLE": "ITERABLE",
-    "OBJECT": "OBJECT",
-    "MIXED": "MIXED",
-    "NEVER": "NEVER",
+    '__HALT_COMPILER': '__HALT_COMPILER',
+    'ABSTRACT': 'ABSTRACT',
+    'ARRAY': 'ARRAY',
+    'AS': 'AS',
+    'BREAK': 'BREAK',
+    'CALLABLE': 'CALLABLE',
+    'CASE': 'CASE',
+    'CATCH': 'CATCH',
+    'CLASS': 'CLASS',
+    'CLONE': 'CLONE',
+    'CONST': 'CONST',
+    'CONTINUE': 'CONTINUE',
+    'DECLARE': 'DECLARE',
+    'DEFAULT': 'DEFAULT',
+    'DIE': 'DIE',
+    'DO': 'DO',
+    'ECHO': 'ECHO',
+    'ELSE': 'ELSE',
+    'ELSEIF': 'ELSEIF',
+    'ENDDECLARE': 'ENDDECLARE',
+    'ENDFOR': 'ENDFOR',
+    'ENDFOREACH': 'ENDFOREACH',
+    'ENDIF': 'ENDIF',
+    'ENDSWITCH': 'ENDSWITCH',
+    'ENDWHILE': 'ENDWHILE',
+    'EVAL': 'EVAL',
+    'EXIT': 'EXIT',
+    'EXTENDS': 'EXTENDS',
+    'FOR': 'FOR',
+    'FOREACH': 'FOREACH',
+    'FUNCTION': 'FUNCTION',
+    'GLOBAL': 'GLOBAL',
+    'GOTO': 'GOTO',
+    'IF': 'IF',
+    'IMPLEMENTS': 'IMPLEMENTS',
+    'INCLUDE': 'INCLUDE',
+    'INCLUDE_ONCE': 'INCLUDE_ONCE',
+    'INSTANCEOF': 'INSTANCEOF',
+    'INSTEADOF': 'INSTEADOF',
+    'INTERFACE': 'INTERFACE',
+    'ISSET': 'ISSET',
+    'LIST': 'LIST',
+    'NAMESPACE': 'NAMESPACE',
+    'NEW': 'NEW',
+    'PRINT': 'PRINT',
+    'PRIVATE': 'PRIVATE',
+    'PROTECTED': 'PROTECTED',
+    'PUBLIC': 'PUBLIC',
+    'REQUIRE': 'REQUIRE',
+    'REQUIRE_ONCE': 'REQUIRE_ONCE',
+    'RETURN': 'RETURN',
+    'STATIC': 'STATIC',
+    'SWITCH': 'SWITCH',
+    'THROW': 'THROW',
+    'TRAIT': 'TRAIT',
+    'TRY': 'TRY',
+    'UNSET': 'UNSET',
+    'USE': 'USE',
+    # 'VAR': 'VAR',
+    'WHILE': 'WHILE',
+    'TRUE': 'TRUE',
+    'FALSE': 'FALSE',
+    'VOID': 'VOID'
 }
 tokens = [
+    # Open and closing tags
+    'OPENTAG', 'CLOSETAG',
     # Symbols
-    'PLUS',
-    'PLUSPLUS',
-    'PLUSEQUAL',
-    'MINUS',
-    'MINUSMINUS',
-    'MINUSEQUAL',
-    'TIMES',
-    'DIVIDE',
-    'LESS',
-    'LESSEQUAL',
-    'GREATER',
-    'GREATEREQUAL',
-    'EQUAL',
-    'DEQUAL',
-    'DISTINT',
-    'ISEQUAL',
-    'SEMICOLON',
-    'COMMA',
-    'LPAREN',
-    'RPAREN',
-    'LBRACKET',
-    'RBRACKET',
-    'LBLOCK',
-    'RBLOCK',
-    'COLON',
-    'AMPERSANT',
-    'HASHTAG',
-    'DOT',
-    'QUOTE',
-    'DOUBLEQUOTE',
-    # 'DOLLARSIGN',
-    'QUESTIONMARK',
+    'PLUS','PLUSPLUS','PLUSEQUAL','MINUS','MINUSMINUS','MINUSEQUAL','TIMES', 'TIMESTIMES','DIVIDE','LESS',
+    'LESSEQUAL','GREATER','GREATEREQUAL','EQUAL','DEQUAL','DISTINT','ISEQUAL','SEMICOLON',
+    'COMMA','LPAREN','RPAREN','LBRACKET','RBRACKET','LBLOCK','RBLOCK','COLON','AMPERSANT','HASHTAG',
+    'DOT','QUOTE','DOUBLEQUOTE','QUESTIONMARK',
+    #Booleans
+    'AND','XOR','OR',
     #Others
-    "ID",
-    "NUMBER",
-    "STRING"
+    "ID","IDVAR","NUMBER","STRING"
 ] + list(reserved.values())
 
 #Token definition
+
+def t_OPENTAG(t):
+    r'(<\?(php)?)'
+    return t
+
+def t_CLOSETAG(t):
+    r'\?>'
+    return t
 
 t_PLUS   = r'\+'
 t_MINUS  = r'-'
@@ -152,12 +119,61 @@ t_HASHTAG = r'\#'
 t_DOT = r'\.'
 t_QUOTE = r'\''
 t_DOUBLEQUOTE = r'\"'
-# t_DOLLARSIGN = r'\$'
 t_QUESTIONMARK = r'\?'
 
+def t_PLUSPLUS(t):
+    r'\+\+'
+    return t
+
+def t_PLUSEQUAL(t):
+    r'\+\='
+    return t
+
+def t_MINUSMINUS(t):
+    r'--'
+    return t
+
+def t_MINUSEQUAL(t):
+    r'-='
+    return t
+
+def t_TIMESTIMES(t):
+    r'\*\*'
+    return t
+
+def t_LESSEQUAL(t):
+    r'<='
+    return t
+
+def t_GREATEREQUAL(t):
+    r'>='
+    return t
+
+def t_DEQUAL(t):
+    r'!='
+    return t
+
+def t_ISEQUAL(t):
+    r'=='
+    return t
+
+def t_AND(t):
+    r'and|AND|&&'
+    return t
+
+def t_XOR(t):
+    r'xor|XOR|\^'
+    return t
+def t_OR(t):
+    r'and|OR|(\|\|)'
+    return t
+
 def t_ID(t):
-    r'\$?[a-zA-Z_][a-zA-Z_0-9]*'
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value.upper(),'ID')
+    return t
+def t_IDVAR(t):
+    r'\$[a-zA-Z_][a-zA-Z_0-9]*'
     return t
 
 def t_NUMBER(t):
@@ -167,39 +183,9 @@ def t_NUMBER(t):
     return t
 
 def t_STRING(t):
-    r'"([^"\\]|\\.)*"'
+    r'"(("[^"]*")|(\'[^\']*\'))"'
     t.value = t.value
     return t
-
-def t_LESSEQUAL(t):
-    r'<='
-    return t
-
-
-def t_GREATEREQUAL(t):
-    r'>='
-    return t
-
-
-def t_DEQUAL(t):
-    r'!='
-    return t
-
-
-def t_ISEQUAL(t):
-    r'=='
-    return t
-
-
-def t_MINUSMINUS(t):
-    r'--'
-    return t
-
-
-def t_PLUSPLUS(t):
-    r'\+\+'
-    return t
-
 
 def t_newline(t):
     r'\n+'
@@ -220,5 +206,5 @@ def t_error(t):
     print("Lexical error: " + str(t.value[0]))
     t.lexer.skip(1)
 
-
+phplexer = lexer.lex()
 
