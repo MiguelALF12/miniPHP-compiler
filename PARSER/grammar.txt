@@ -1,0 +1,157 @@
+program : OPENTAG declaration_list CLOSETAG
+
+declaration_list : declaration_list  declaration
+                    | declaration
+
+declaration : var_declaration
+				   | fun_declaration
+				   | area fun_declaration
+				   | header_declaration
+				   | class_declaration
+				   | echo_stmt
+				   | selection_stmt
+			       | iteration_stmt
+				   | typeclass
+
+echo_stmt : echo_stmt ECHO STRING SEMICOLON
+				 | echo_stmt ECHO IDVAR SEMICOLON
+				 | echo_stmt ECHO NUMBER SEMICOLON
+				 | echo_stmt ECHO boolean SEMICOLON
+				 | echo_stmt ECHO fun_declaration SEMICOLON
+				 | empty
+
+header_declaration : REQUIRE LPAREN STRING RPAREN SEMICOLON
+                   | INCLUDE LPAREN STRING RPAREN SEMICOLON
+
+class_declaration : area CLASS ID LBLOCK attribute RBLOCK
+                   | CLASS ID LBLOCK attribute RBLOCK
+
+attribute : attribute area var_declaration
+				 | area var_declaration
+				 | attribute area fun_declaration
+				 | area fun_declaration
+
+area : PRIVATE
+        | PUBLIC
+        | PROTECTED
+
+var_declaration : IDVAR SEMICOLON var_declaration
+        | IDVAR SEMICOLON
+        | TIMESTIMES IDVAR SEMICOLON
+        | TIMESTIMES IDVAR SEMICOLON var_declaration
+        | IDVAR EQUAL NUMBER SEMICOLON var_declaration
+        | IDVAR EQUAL NUMBER SEMICOLON
+        | IDVAR EQUAL boolean SEMICOLON var_declaration
+        | IDVAR EQUAL boolean SEMICOLON
+        | IDVAR EQUAL IDVAR SEMICOLON var_declaration
+        | IDVAR EQUAL IDVAR SEMICOLON
+        | AMPERSANT IDVAR SEMICOLON var_declaration
+        | AMPERSANT IDVAR EQUAL IDVAR SEMICOLON  selection_stmt
+        | AMPERSANT IDVAR SEMICOLON
+        | IDVAR EQUAL simple_expression SEMICOLON
+
+fun_declaration : FUNCTION ID LPAREN params RPAREN
+        | FUNCTION ID LPAREN params RPAREN compount_stmt
+
+params : param_list
+        | empty
+
+param_list : param_list COMMA param_list
+        | param
+
+param : IDVAR
+        | IDVAR LBRACKET RBRACKET
+
+compount_stmt : LBLOCK echo_stmt local_declarations echo_stmt statement_list echo_stmt RBLOCK
+
+local_declarations : local_declarations var_declaration
+        | empty
+
+statement_list : statement_list statement
+        | empty
+
+statement : expression_stmt
+        | compount_stmt
+        | selection_stmt
+        | iteration_stmt
+        | return_stmt
+        | class_declaration
+        | echo_stmt
+
+expression_stmt : expression SEMICOLON
+
+selection_stmt : IF LPAREN expression RPAREN statement
+        | IF LPAREN expression RPAREN statement selection
+
+selection : ELSE statement
+        | ELSEIF statement selection
+
+selection_stmt : SWITCH LPAREN var RPAREN statement
+        | CASE NUMBER COLON statement BREAK SEMICOLON
+        | DEFAULT COLON statement BREAK SEMICOLON
+
+iteration_stmt : FOR LPAREN var_declaration SEMICOLON expression SEMICOLON additive_expression RPAREN statement
+
+iteration_stmt : WHILE LPAREN expression RPAREN statement
+
+iteration_stmt : DO LBLOCK statement SEMICOLON RBLOCK WHILE LPAREN expression RPAREN
+
+return_stmt : RETURN SEMICOLON
+        | RETURN expression SEMICOLON
+
+expression : var EQUAL expression
+        | simple_expression
+        | var EQUAL AMPERSANT IDVAR
+        | expression AND expression
+        | expression OR expression
+
+var : IDVAR
+        | IDVAR LBRACKET expression RBRACKET
+
+simple_expression : additive_expression relop additive_expression
+        | additive_expression
+
+relop : LESS
+        | LESSEQUAL
+        | GREATER
+        | GREATEREQUAL
+        | DEQUAL
+        | DISTINT
+        | ISEQUAL
+
+additive_expression : additive_expression addop term
+        | term
+        | term MINUSMINUS
+        | term PLUSPLUS
+
+addop : PLUS
+        | MINUS
+
+term : term mulop factor
+        | factor
+
+mulop : TIMES
+        | DIVIDE
+
+factor : LPAREN expression RPAREN
+        | var
+        | NUMBER
+        | boolean
+        | IDVAR LPAREN args RPAREN
+
+args : args_list
+        | empty
+        | VOID
+
+args_list : args_list COMMA expression
+        | expression
+
+boolean : TRUE
+        | FALSE
+
+typeclass : ID IDVAR EQUAL NEW constructor SEMICOLON
+
+constructor : ID LPAREN RPAREN
+        | ID LPAREN args RPAREN
+
+empty :

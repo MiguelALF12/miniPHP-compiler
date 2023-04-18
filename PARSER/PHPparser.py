@@ -180,7 +180,7 @@ def p_selection_stmt_2(p):
 
 
 def p_iteration_stmt_1(p):
-	'iteration_stmt : FOR LPAREN var_declaration SEMICOLON expression SEMICOLON additive_expression RPAREN statement '
+	'iteration_stmt : FOR LPAREN var_declaration SEMICOLON expression SEMICOLON additive_expression RPAREN statement'
 	pass
 
 
