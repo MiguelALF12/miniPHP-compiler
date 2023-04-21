@@ -11,19 +11,12 @@ echo $verb;
 if($a < 20){
   $v1 = 1;
   echo $v1;
-  $suma = $v2 + $v3
+  $suma = $v2 + $v3;
+
 }
 
-class ClaseSencilla{
-  public $var = 0;
-  public $var1 = 0;
 
-  protected function mostrarVar() {
-    return 0;
-  }
-}
-
-public function recursividad($a){
+function recursividad($a){
   **$d;
   &$d=$a;
   if($a < 20){
@@ -31,12 +24,6 @@ public function recursividad($a){
     echo $v1;
     $suma = $v2 + $v3;
     if($a>0 and $b<1 || $s<$d OR $a==2){
-    }
-  }
-
-  public class prueba{
-    protected function abs(){
-      return 0;
     }
   }
 
@@ -64,7 +51,7 @@ public function recursividad($a){
 
 }
 
-prueba $a=new prueba(VOID);
+$a=recursividad(45);
 
  //esto es un comentario corto
 

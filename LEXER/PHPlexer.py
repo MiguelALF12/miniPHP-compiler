@@ -77,7 +77,7 @@ tokens = [
     # Open and closing tags
     'OPENTAG', 'CLOSETAG',
     # Symbols
-    'PLUS','PLUSPLUS','PLUSEQUAL','MINUS','MINUSMINUS','MINUSEQUAL','TIMES', 'TIMESTIMES','DIVIDE','LESS',
+    'PLUS','PLUSPLUS','PLUSEQUAL','MINUS','MINUSMINUS','MINUSEQUAL','TIMES','TIMESEQUAL', 'TIMESTIMES','DIVIDE','LESS',
     'LESSEQUAL','GREATER','GREATEREQUAL','EQUAL','DEQUAL','DISTINT','ISEQUAL','SEMICOLON',
     'COMMA','LPAREN','RPAREN','LBRACKET','RBRACKET','LBLOCK','RBLOCK','COLON','AMPERSANT','HASHTAG',
     'DOT','QUOTE','DOUBLEQUOTE','QUESTIONMARK',
@@ -86,6 +86,7 @@ tokens = [
     #Others
     "ID","IDVAR","NUMBER","STRING"
 ] + list(reserved.values())
+
 
 #Token definition
 
@@ -137,6 +138,9 @@ def t_MINUSEQUAL(t):
     r'-='
     return t
 
+def t_TIMESEQUAL(t):
+    r'\*='
+    return t
 def t_TIMESTIMES(t):
     r'\*\*'
     return t
@@ -178,18 +182,21 @@ def t_IDVAR(t):
 
 def t_NUMBER(t):
     # r'\d+^[a-zA-Z0-9_](\.\d+)?((E|e)(-|\+)?\d+(\.\d+)?)?'
-    r'\d(\.\d +)?((E | e)(- |\+)?\d + (\.\d+)?)?'
+    r'\d+(\.\d+)?((E|e)(-|\+)?\d+(\.\d+)?)?'
     t.value = float(t.value)
     return t
 
 def t_STRING(t):
-    r'"(("[^"]*")|(\'[^\']*\'))"'
+    r'"([^"\\]|\\.)*"|\'([^"\\]|\\.)*\''
+    # r'"([^"\\]|\\.)*"'
+    # r'^("|\')[^"].*("|\')$'
     t.value = t.value
     return t
 
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
+
 
 t_ignore = ' \t'
 

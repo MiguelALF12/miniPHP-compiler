@@ -4,11 +4,8 @@ import PARSER.PHPparser as phpparser
 import ply.lex as lexer
 import ply.yacc as yacc
 
-
 def testLexer(data, builtLexer):
     print("========= TESTEANDO LEXER =========")
-    print("Entrada:")
-    print(data)
     print("Salida: ")
     builtLexer.input(data)
     while True:
@@ -16,15 +13,16 @@ def testLexer(data, builtLexer):
         if not tok:
             break
         print(tok)
+    print("===================================\n\n")
 
 
 def testParser(data, builtParser):
-    print("===================================")
     print("========= TESTEANDO PARSER =========")
     print("Entrada:")
     print(data)
-    builtParser.parse(data, tracking=True)
-    print("Fin prueba parser")
+    builtParser.parse(data, debug=True)
+    print(None if phpparser.ERROR else "\n\n -----> FELICIDADES. Su codigo no tiene errores!")
+    print("===================================\n\n")
 
 
 
