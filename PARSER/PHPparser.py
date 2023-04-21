@@ -57,14 +57,6 @@ def p_echo_stmt(p):
 	'''
 	pass
 
-def p_data_type(p):
-	'''
-	data_type : NUMBER
-            | boolean
-            | STRING
-	'''
-	pass
-
 def p_boolean(p):
 	'''boolean : TRUE
 			   | FALSE
@@ -91,6 +83,17 @@ def p_var_declaration_2(p):
 	'''
 	pass
 
+def p_datatype_1(p):
+	'data_type : NUMBER'
+	pass
+
+def p_datatype_2(p):
+	'data_type : boolean'
+	pass
+
+def p_datatype_3(p):
+	'data_type : STRING'
+	pass
 
 def p_fun_declaration(p):
 	'''fun_declaration : FUNCTION ID LPAREN params RPAREN
