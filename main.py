@@ -20,7 +20,8 @@ def testParser(data, builtParser):
     print("========= TESTEANDO PARSER =========")
     print("Entrada:")
     print(data)
-    builtParser.parse(data, debug=True)
+    # builtParser.parse(data, debug=True)
+    builtParser.parse(data)
     print(None if phpparser.ERROR else "\n\n -----> FELICIDADES. Su codigo no tiene errores!")
     print("===================================\n\n")
 
@@ -35,9 +36,11 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         fin = sys.argv[1]
     else:
-        testNumber = 1  # Change to 1 to test test1.txt or 2 to test test2.txt
+        testNumber = 2  # Change to 1 to test test1.txt or 2 to test test2.txt
         fin = f'tests/test{testNumber}.txt'
-    f = open(fin, 'r')
+        phpFile = 'tests/test4.php'
+    # f = open(fin, 'r')
+    f = open(phpFile, 'r')
     data = f.read()
-    testLexer(data, phplexer.phplexer)
+    # testLexer(data, phplexer.phplexer)
     testParser(data, phpparser.phpparser)
